@@ -14,7 +14,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/dukkakarunkumar-bit/spring-boot-maven-example-helloworld.git'
+                git 'https://github.com/syoganandh/spring-boot-maven-example-helloworld.git'
             }
         }
 

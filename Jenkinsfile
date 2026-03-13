@@ -20,7 +20,7 @@ pipeline {
 
         stage('Build WAR') {
             steps {
-                sh 'mvn clean install -Dhttps.protocols=TLSv1.2'
+                sh 'mvn clean install -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true'
             }
         }
 

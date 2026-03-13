@@ -20,7 +20,7 @@ pipeline {
 
         stage('Build WAR') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn clean install -Dhttps.protocols=TLSv1.2'
             }
         }
 

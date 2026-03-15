@@ -19,9 +19,7 @@ pipeline {
 
         stage('Build WAR') {
             steps {
-                sh 'java -version'
-                sh 'mvn -v'
-                sh 'mvn clean package -DskipTests -U -e'
+                sh 'mvn clean package -DskipTests'
             }
         }
 

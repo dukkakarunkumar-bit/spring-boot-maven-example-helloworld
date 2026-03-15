@@ -11,9 +11,17 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/syoganandh/spring-boot-maven-example-helloworld.git'
+                git 'https://github.com/dukkakarunkumar-bit/spring-boot-maven-example-helloworld.git'
+            }
+        }
+
+        stage('Verify Tools') {
+            steps {
+                sh 'java -version'
+                sh 'mvn -v'
             }
         }
 
@@ -38,7 +46,6 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 sh 'cp target/*.war $TOMCAT_WEBAPPS/ROOT.war'
-                sh 'systemctl restart tomcat10 || true'
             }
         }
     }

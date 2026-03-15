@@ -1,50 +1,39 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK17'
-        maven 'Maven'
-    }
-
     environment {
-        TOMCAT_WEBAPPS = '/var/lib/tomcat10/webapps'
+        TOMCAT_WEBAPPS = '/opt/tomcat/webapps'
     }
 
     stages {
-
-       stage('Checkout') {
-    steps {
-        git branch: 'master', url: 'https://github.com/dukkakarunkumar-bit/spring-boot-maven-example-helloworld.git'
-    }
-}
-
-        stage('Verify Tools') {
+        stage('Checkout Code') {
             steps {
-                sh 'java -version'
-                sh 'mvn -v'
+                git branch: 'master', url: 'https://github.com/dukkakarunkumar-bit/spring-boot-maven-example-helloworld.git'
             }
         }
 
-   stage('Build WAR') {
-    steps {
-        sh '''
-            echo "=== CURRENT DIR ==="
-            pwd
-            echo "=== FILES ==="
-            ls -la
-            echo "=== JAVA ==="
-            java -version
-            echo "=== MAVEN ==="
-            mvn -version
-            echo "=== BUILD START ==="
-            mvn clean package -DskipTests -e
-        '''
-    }
-}
+        stage('Verify Tools') {
+            steps {
+                sh '''
+                    java -version
+                    mvn -version
+                '''
+            }
+        }
+
+        stage('Build WAR') {
+            steps {
+                sh '''
+                    pwd
+                    ls -la
+                    mvn clean package -DskipTests -B
+                '''
+            }
+        }
 
         stage('Check WAR') {
             steps {
-                sh 'ls -lh target'
+                sh 'ls -lh target/*.war'
             }
         }
 
@@ -55,13 +44,9 @@ pipeline {
         }
 
         stage('Deploy to Tomcat') {
-    steps {
-        sh '''
-            echo "TOMCAT_WEBAPPS=$TOMCAT_WEBAPPS"
-            ls -lh target
-            cp -v target/*.war $TOMCAT_WEBAPPS/ROOT.war
-        '''
-    }
-}
+            steps {
+                sh 'cp -v target/*.war $TOMCAT_WEBAPPS/ROOT.war'
+            }
+        }
     }
 }

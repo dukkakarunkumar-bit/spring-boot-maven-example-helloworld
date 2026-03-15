@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        TOMCAT_WEBAPPS = '/opt/tomcat/webapps'
+        TOMCAT_WEBAPPS = '/var/lib/tomcat10/webapps'
     }
 
     stages {
@@ -12,28 +12,13 @@ pipeline {
             }
         }
 
-        stage('Verify Tools') {
+        stage('Build WAR') {
             steps {
                 sh '''
                     java -version
                     mvn -version
-                '''
-            }
-        }
-
-        stage('Build WAR') {
-            steps {
-                sh '''
-                    pwd
-                    ls -la
                     mvn clean package -DskipTests -B
                 '''
-            }
-        }
-
-        stage('Check WAR') {
-            steps {
-                sh 'ls -lh target/*.war'
             }
         }
 
@@ -45,7 +30,7 @@ pipeline {
 
         stage('Deploy to Tomcat') {
             steps {
-                sh 'cp -v target/*.war $TOMCAT_WEBAPPS/ROOT.war'
+                sh 'sudo cp -v target/*.war $TOMCAT_WEBAPPS/ROOT.war'
             }
         }
     }

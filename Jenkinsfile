@@ -19,10 +19,12 @@ pipeline {
         }
 
         stage('Build WAR') {
-            steps {
-                sh 'mvn clean install -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true'
-            }
-        }
+    steps {
+        sh 'java -version'
+        sh 'mvn -v'
+        sh 'mvn clean package -DskipTests -U -e'
+    }
+}
 
         stage('Archive Artifact') {
             steps {

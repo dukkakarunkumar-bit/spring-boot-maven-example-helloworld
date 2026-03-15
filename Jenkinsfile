@@ -25,11 +25,22 @@ pipeline {
             }
         }
 
-        stage('Build WAR') {
-            steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
+   stage('Build WAR') {
+    steps {
+        sh '''
+            echo "=== CURRENT DIR ==="
+            pwd
+            echo "=== FILES ==="
+            ls -la
+            echo "=== JAVA ==="
+            java -version
+            echo "=== MAVEN ==="
+            mvn -version
+            echo "=== BUILD START ==="
+            mvn clean package -DskipTests -e
+        '''
+    }
+}
 
         stage('Check WAR') {
             steps {

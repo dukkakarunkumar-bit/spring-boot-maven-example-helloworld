@@ -12,11 +12,11 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/dukkakarunkumar-bit/spring-boot-maven-example-helloworld.git'
-            }
-        }
+       stage('Checkout') {
+    steps {
+        git branch: 'master', url: 'https://github.com/dukkakarunkumar-bit/spring-boot-maven-example-helloworld.git'
+    }
+}
 
         stage('Verify Tools') {
             steps {
